@@ -60,7 +60,6 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
             .Visible = msoTrue
             .ForeColor.RGB = RGB(127, 127, 127)
         End With
-        
     End With
     
 End Sub
