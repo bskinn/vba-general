@@ -7,18 +7,19 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
     Dim ca As ChartArea, co As ChartObject, pa As PlotArea, cht As Chart
     Dim shp As Shape, ax As Axis
     
-    If Not TypeOf Selection Is PlotArea Then
-        MsgBox "Must select the plot area!"
+    Set cht = ActiveChart
+    If cht Is Nothing Then
+        MsgBox "No chart selected!"
         Exit Sub
     End If
     
-    Set pa = Selection
-    Set cht = pa.Parent
+    Set ca = cht.ChartArea
+    Set pa = cht.PlotArea
     Set co = cht.Parent
     Set shp = co.ShapeRange(1)
     
-    With shp
-        .Line.Visible = msoFalse
+    With ca
+        .Format.Line.Visible = msoFalse
     End With
     
     With co
