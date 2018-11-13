@@ -38,6 +38,7 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
             .AxisTitle.Text = "[X-Axis Text]"
             .AxisTitle.Characters.Font.Size = 14
             .TickLabels.Font.Size = 12
+            .TickLabelPosition = xlTickLabelPositionLow
         End With
         
         Set ax = .Axes(xlValue)
@@ -47,6 +48,7 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
             .AxisTitle.Text = "[Y-Axis Text]"
             .AxisTitle.Characters.Font.Size = 14
             .TickLabels.Font.Size = 12
+            .TickLabelPosition = xlTickLabelPositionLow
             With .MajorGridlines.Format.Line
                 .Weight = 0.75
                 .ForeColor.RGB = RGB(210, 210, 210)
