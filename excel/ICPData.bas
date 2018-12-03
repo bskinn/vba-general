@@ -378,8 +378,8 @@ Public Sub insertDataSummary(sortIDRg As Range, sortConcRg As Range, sortRSDRg A
                 
                 ' Add new terms for the uncertainty in each value
                 For iter2 = 1 To .Count
-                    formStr = formStr & "(" & .Item(1).Offset(0, localConcOffset).Address(False, False) & _
-                                    "*" & .Item(1).Offset(0, localRSDOffset).Address(False, False) & ")^2"
+                    formStr = formStr & "SUMSQ(" & .Item(1).Offset(0, localConcOffset).Address(False, False) & _
+                                    "*" & .Item(1).Offset(0, localRSDOffset).Address(False, False) & ")"
                     If Not iter2 = .Count Then
                         ' Need to add a plus sign connecting the various terms
                         formStr = formStr & "+"
