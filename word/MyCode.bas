@@ -223,14 +223,11 @@ End Sub
 
 Sub RotateHighlight()
 '
-' Rotates highlighting of selected text between none, yellow, and green.
+' Rotates highlighting of selected text, including removal of the highlight.
 '
-' For the moment, no additional colors included; an expanded version of
-'  the macro might have variables that each doc can set to include additional
-'  highlighting colors.
-' If the selected text is highlighted with anything other than yellow,
-'  the highlight is removed.  Also, if the selection includes text whose
+' A side-effect of this construction: if the selection includes text whose
 '  highlighting is not uniform, all highlighting is removed from the selection.
+'
 
     Select Case Selection.Range.HighlightColorIndex
     Case wdYellow
@@ -766,5 +763,21 @@ Sub WrapToggle()
                 .Type = wdWrapSquare
             End Select
         End With
+    Err.Clear: On Error GoTo 0
+End Sub
+
+Sub VariableFormat()
+    Dim sel As Range ', length As Long
+
+    On Error Resume Next
+        Set sel = Selection
+        
+        Selection.Expand wdWord
+        Selection.Characters(1).Italic = True
+        Selection.MoveStart wdCharacter, 1
+        Selection.Font.Subscript = msoTrue
+        
+        sel.Select
+        
     Err.Clear: On Error GoTo 0
 End Sub
