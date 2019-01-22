@@ -774,8 +774,10 @@ Sub VariableFormat()
         
         Selection.Expand wdWord
         Selection.Characters(1).Italic = True
-        Selection.MoveStart wdCharacter, 1
-        Selection.Font.Subscript = msoTrue
+        If Selection.Characters.Count > 1 Then
+            Selection.MoveStart wdCharacter, 1
+            Selection.Font.Subscript = msoTrue
+        End If
         
         sel.Select
         
