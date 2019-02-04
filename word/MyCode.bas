@@ -149,24 +149,36 @@ End Sub
 
 Sub SuperscriptEndnoteNumbers()
     Dim en As Endnote, setting As Boolean
+    Dim wkChar As String
     Dim unit As WdUnits
+    Dim oldSel As Range
     
     If ActiveDocument.Endnotes.Count < 1 Then Exit Sub
     
+    Set oldSel = Selection.Range
+    
     With ActiveDocument.Endnotes
         setting = Not .Item(1).Range.Previous(wdCharacter, 1).Font.Superscript
-        Select Case CStr(.Item(1).Range.Characters(1))
-        Case ".", ")"
-            unit = wdCharacter
-        Case Else
-            unit = wdWord
-        End Select
         
         For Each en In .Parent.Endnotes
+            ' For some reason, endnotes behave differently depending on whether
+            ' there's a character immediately following the endnote number
+            wkChar = CStr(en.Range.Characters(1))
+            If Asc(wkChar) <> 9 And Asc(wkChar) <> 32 Then  'wkChar = "." Or wkChar = ")" Then
+                unit = wdCharacter
+            Else
+                unit = wdWord
+            End If
+            
             en.Range.Previous(unit, 1).Font.Superscript = setting
+            If unit = wdCharacter Then
+                en.Range.Characters(1).Font.Superscript = setting
+            End If
         Next en
         
     End With
+    
+    oldSel.Select
     
 End Sub
 
