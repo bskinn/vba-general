@@ -148,12 +148,12 @@ Sub FieldInsertJustNumberFlag()
 End Sub
 
 Sub SuperscriptEndnoteNumbers()
-    Dim en As Endnote, setting As Boolean
-    Dim wkAsc As Long
-    Dim unit As WdUnits
-    Dim workRg As Range
+    Dim en As Endnote, setting As Boolean, hasBeenSet As Boolean
+    Dim wkAsc As Long, unit As WdUnits, workRg As Range
     
     If ActiveDocument.Endnotes.Count < 1 Then Exit Sub
+    
+    hasBeenSet = False
     
     With ActiveDocument.Endnotes
         For Each en In .Parent.Endnotes
@@ -174,8 +174,10 @@ Sub SuperscriptEndnoteNumbers()
             
             ' If this is the first endnote, then use it as the basis for whether to
             ' add or remove the superscript
-            If en.Range.Text = .Item(1).Range.Text Then
+            If en.Range.Text = .Item(1).Range.Text And Not hasBeenSet Then
+                Debug.Print "HIT"
                 setting = Not workRg.Characters(1).Font.Superscript
+                hasBeenSet = True
             End If
             
             ' Grab the following character; if it's other than a space or tab,
