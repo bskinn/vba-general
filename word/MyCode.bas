@@ -149,36 +149,48 @@ End Sub
 
 Sub SuperscriptEndnoteNumbers()
     Dim en As Endnote, setting As Boolean
-    Dim wkChar As String
+    Dim wkAsc As Long
     Dim unit As WdUnits
-    Dim oldSel As Range
+    Dim workRg As Range
     
     If ActiveDocument.Endnotes.Count < 1 Then Exit Sub
     
-    Set oldSel = Selection.Range
-    
     With ActiveDocument.Endnotes
-        setting = Not .Item(1).Range.Previous(wdCharacter, 1).Font.Superscript
-        
         For Each en In .Parent.Endnotes
-            ' For some reason, endnotes behave differently depending on whether
-            ' there's a character immediately following the endnote number
-            wkChar = CStr(en.Range.Characters(1))
-            If Asc(wkChar) <> 9 And Asc(wkChar) <> 32 Then  'wkChar = "." Or wkChar = ")" Then
-                unit = wdCharacter
-            Else
-                unit = wdWord
+            Set workRg = en.Range
+
+            ' This appears to always(?) bring the start of the selection backwards
+            ' to just after the actual endnote number itself. Asc(Selection) returns
+            ' '2' when an endnote number is selected, which seems quite backward,
+            ' but.. VBA.
+            workRg.MoveStartUntil Chr(2), wdBackward
+            
+            ' Need to bring the range back one more character, to encompass the
+            ' endnote number and then reduce it to just the endnumber number.
+            ' Interestingly, endnote numbers appear always to count as a single
+            ' character.
+            workRg.MoveStart wdCharacter, -1
+            Set workRg = workRg.Characters(1)
+            
+            ' If this is the first endnote, then use it as the basis for whether to
+            ' add or remove the superscript
+            If en.Range.Text = .Item(1).Range.Text Then
+                setting = Not workRg.Characters(1).Font.Superscript
             End If
             
-            en.Range.Previous(unit, 1).Font.Superscript = setting
-            If unit = wdCharacter Then
-                en.Range.Characters(1).Font.Superscript = setting
+            ' Grab the following character; if it's other than a space or tab,
+            ' then need to expand the range of what has its superscripting
+            ' modified.
+            wkAsc = Asc(CStr(workRg.Next(wdCharacter, 1)))
+            If wkAsc <> 9 And wkAsc <> 32 Then
+                workRg.MoveEndUntil Chr(9) & Chr(32) & Chr(13), wdForward
             End If
+            
+            ' Apply the superscript setting
+            workRg.Font.Superscript = setting
+            
         Next en
-        
     End With
-    
-    oldSel.Select
     
 End Sub
 
