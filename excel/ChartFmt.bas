@@ -32,10 +32,12 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
             .Legend.Delete
         Err.Clear: On Error GoTo 0
         
+        .HasTitle = False
+        
         Set ax = .Axes(xlCategory)
         With ax
-            .HasTitle = True
-            .AxisTitle.Text = "[X-Axis Text]"
+            If Not .HasTitle Then .HasTitle = True
+            If .AxisTitle.Text = "Axis Title" Then .AxisTitle.Text = "[X-Axis Text]"
             .AxisTitle.Characters.Font.Size = 14
             .TickLabels.Font.Size = 12
             .TickLabelPosition = xlTickLabelPositionLow
@@ -43,9 +45,9 @@ Attribute FormatInlineChart.VB_ProcData.VB_Invoke_Func = "Z\n14"
         
         Set ax = .Axes(xlValue)
         With ax
-            .HasTitle = True
+            If Not .HasTitle Then .HasTitle = True
+            If .AxisTitle.Text = "Axis Title" Then .AxisTitle.Text = "[Y-Axis Text]"
             .AxisTitle.Orientation = xlUpward
-            .AxisTitle.Text = "[Y-Axis Text]"
             .AxisTitle.Characters.Font.Size = 14
             .TickLabels.Font.Size = 12
             .TickLabelPosition = xlTickLabelPositionLow
