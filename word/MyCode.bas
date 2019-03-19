@@ -809,3 +809,22 @@ Sub VariableFormat()
         
     Err.Clear: On Error GoTo 0
 End Sub
+
+Sub SelectCurrentWord()
+
+    Dim rxSpace As New RegExp
+    
+    With rxSpace
+        .Global = False
+        .IgnoreCase = True
+        .MultiLine = False
+        .Pattern = "\W"
+    End With
+
+    Selection.Expand wdWord
+    
+    Do While rxSpace.Test(Selection.Characters(Selection.Characters.Count))
+        Selection.MoveEnd wdCharacter, -1
+    Loop
+    
+End Sub
