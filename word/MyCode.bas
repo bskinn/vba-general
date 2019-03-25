@@ -812,8 +812,31 @@ End Sub
 
 Sub SelectCurrentWord()
 
-    Dim rxSpace As New RegExp
+    Selection.Expand wdWord
+    contractTrailingSpace
     
+End Sub
+
+Sub SelectCurrentSentence()
+
+    Selection.Expand wdSentence
+    contractTrailingSpace
+    Selection.MoveEnd wdCharacter, 1   ' Include the final punct
+
+End Sub
+
+Sub SelectCurrentParagraph()
+
+    Selection.Expand wdParagraph
+    contractTrailingSpace
+    Selection.MoveEnd wdCharacter, 1   ' Include the final punct
+
+End Sub
+
+Private Function rxSpace() As RegExp
+
+    Set rxSpace = New RegExp
+
     With rxSpace
         .Global = False
         .IgnoreCase = True
@@ -821,10 +844,14 @@ Sub SelectCurrentWord()
         .Pattern = "\W"
     End With
 
-    Selection.Expand wdWord
+End Function
+
+Private Sub contractTrailingSpace()
     
-    Do While rxSpace.Test(Selection.Characters(Selection.Characters.Count))
+    Dim rx As RegExp
+    Set rx = rxSpace
+
+    Do While rx.Test(Selection.Characters(Selection.Characters.Count))
         Selection.MoveEnd wdCharacter, -1
     Loop
-    
 End Sub
