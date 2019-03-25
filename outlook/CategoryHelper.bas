@@ -33,7 +33,7 @@ Sub ToggleCategory(it As Object, cat As String)
     
 End Sub
 
-Sub doToggle(cat As String)
+Public Sub doToggle(cat As String)
     Dim it As Object, insp As Inspector
     Dim toggleTo As VbTriState
     Dim loc As Long
@@ -89,4 +89,16 @@ End Sub
 
 Sub ToggleFaraday()
     doToggle "Faraday"
+End Sub
+
+Sub ToggleCollabs()
+    doToggle "Collaborators"
+End Sub
+
+Sub ToggleClients()
+    doToggle "Clients"
+End Sub
+
+Sub ToggleFunders()
+    doToggle "Funding Agencies"
 End Sub
