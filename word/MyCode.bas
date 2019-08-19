@@ -822,6 +822,12 @@ Sub SelectCurrentSentence()
     Selection.Expand wdSentence
     contractTrailingSpace
     Selection.MoveEnd wdCharacter, 1   ' Include the final punct
+    Do Until Not Selection.Characters(1) = "["
+        Selection.MoveStart wdCharacter, 1
+    Loop
+    Do Until Not Selection.Characters(Selection.Characters.Count) = "]"
+        Selection.MoveEnd wdCharacter, -1
+    Loop
 
 End Sub
 
@@ -830,6 +836,12 @@ Sub SelectCurrentParagraph()
     Selection.Expand wdParagraph
     contractTrailingSpace
     Selection.MoveEnd wdCharacter, 1   ' Include the final punct
+    Do Until Not Selection.Characters(1) = "["
+        Selection.MoveStart wdCharacter, 1
+    Loop
+    Do Until Not Selection.Characters(Selection.Characters.Count) = "]"
+        Selection.MoveEnd wdCharacter, -1
+    Loop
 
 End Sub
 
@@ -855,3 +867,20 @@ Private Sub contractTrailingSpace()
         Selection.MoveEnd wdCharacter, -1
     Loop
 End Sub
+
+Sub ExpandSelectionLeft()
+    Selection.MoveStart wdCharacter, -1
+End Sub
+
+Sub ContractSelectionLeft()
+    Selection.MoveStart wdCharacter, 1
+End Sub
+
+Sub ExpandSelectionRight()
+    Selection.MoveEnd wdCharacter, 1
+End Sub
+
+Sub ContractSelectionRight()
+    Selection.MoveEnd wdCharacter, -1
+End Sub
+
