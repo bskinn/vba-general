@@ -699,7 +699,7 @@ Sub CycleNumberingFormat()
     Dim oldRg As Range
     Dim wkStr As String, newNumType As String
     Dim newCodeStr As String
-    Dim rx As New RegExp, mch As Match
+    Dim rxMain As New RegExp, mch As Match
     
     If Selection.Characters.Count > 1 And Selection.Fields.Count > 1 Then Exit Sub
     
@@ -711,15 +711,19 @@ Sub CycleNumberingFormat()
     
     wkStr = Selection.Fields(1).Code
     
-    With rx
+    With rxMain
         .Global = False
         .MultiLine = False
-        .IgnoreCase = True
-        .Pattern = "^(.+)\\[*]\s+(\w+)(.*)$"
+        .IgnoreCase = False
+        ' .Pattern won't find "\* MERGEFORMAT"
+        .Pattern = "^(.+)\\[*]\s+([^M]\w+)(.*)$"
         
-        If Not .Test(wkStr) Then GoTo RestoreExit
+        If Not .Test(wkStr) Then
+            wkStr = wkStr & "\* FOO"
+        End If
         Set mch = .Execute(wkStr)(0)
     End With
+
     
     Select Case mch.SubMatches(1)
     Case "ARABIC", "Arabic", "arabic"
@@ -734,8 +738,17 @@ Sub CycleNumberingFormat()
         newNumType = "ARABIC"
     End Select
     
-    newCodeStr = mch.SubMatches(0) & "\* " & _
+    newCodeStr = mch.SubMatches(0)
+    If Not Right(newCodeStr, 1) = " " Then
+        newCodeStr = newCodeStr & " "
+    End If
+    
+    newCodeStr = newCodeStr & "\* " & _
                 newNumType & mch.SubMatches(2)
+    
+    If Right(newCodeStr, 1) <> " " Then
+        newCodeStr = newCodeStr & " "
+    End If
     
     With Selection.Fields(1)
         .Code.Text = newCodeStr
