@@ -102,3 +102,7 @@ End Sub
 Sub ToggleFunders()
     doToggle "Funding Agencies"
 End Sub
+
+Sub ToggleTravel()
+    doToggle "Travel"
+End Sub
