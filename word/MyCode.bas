@@ -532,11 +532,23 @@ Public Sub MergeRefFieldFormat()
                 workFld.Code.InsertAfter "\* MERGEFORMAT "
             End If
             
-            ' Find the nearest previous letter/number character
-            Set workChr = workFld.Result.Previous(wdCharacter, 2)
-            Do Until rx.Test(workChr)
-                Set workChr = workChr.Previous(wdCharacter, 1)
-            Loop
+            ' Find the nearest previous letter/number character,
+            ' unless the immediately previous character is a carriage
+            ' return (ASCII 13, paragraph mark) or vertical tab (ASCII 11,
+            ' soft newline), in which case find the nearest *NEXT* letter/
+            ' number character.
+            Set workChr = workFld.Result.Previous(wdCharacter, 1)
+            If Asc(workChr) = 11 Or Asc(workChr) = 13 Then
+                Set workChr = workFld.Result.Next(wdCharacter, 2)
+                Do Until rx.Test(workChr)
+                    Set workChr = workChr.Next(wdCharacter, 1)
+                Loop
+            Else
+                Set workChr = workFld.Result.Previous(wdCharacter, 2)
+                Do Until rx.Test(workChr)
+                    Set workChr = workChr.Previous(wdCharacter, 1)
+                Loop
+            End If
             
             ' Bring the formatting across.  For now, just underline, bold, italic.
             ' Also font size
