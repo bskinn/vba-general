@@ -909,3 +909,12 @@ Sub ContractSelectionRight()
     Selection.MoveEnd wdCharacter, -1
 End Sub
 
+Sub MarkupToggle()
+    With ActiveWindow.View.RevisionsFilter
+        If .Markup = wdRevisionsMarkupAll Then
+            .Markup = wdRevisionsMarkupSimple
+        Else
+            .Markup = wdRevisionsMarkupAll
+        End If
+    End With
+End Sub
