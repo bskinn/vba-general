@@ -260,10 +260,14 @@ Sub calExport()
         .RestrictToWorkingHours = False
         .IncludeWholeCalendar = True
         .SaveAsICal "C:\Users\Brian\Documents\btscal.ics"
+        MsgBox "Calendar export complete.", vbOKOnly + vbInformation, "Export Complete"
 '        Set mi = .ForwardAsICal(olCalendarMailFormatEventList)
     End With
     
-    shl.ShellExecute "C:\Users\Brian\usrbin\calput.bat"
+    ' Commenting out since not trying to keep updated on remote
+    '  location any more.
+    
+    ' shl.ShellExecute "C:\Users\Brian\bin\calput.bat"
     
 '    Set insp = ol.Inspectors.Add(mi)
 '    insp.Activate
