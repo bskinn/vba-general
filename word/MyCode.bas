@@ -513,10 +513,10 @@ Public Sub MergeRefFieldFormat()
     
     ' Configure the regex
     With rx
-        .Pattern = "[a-z0-9]"
-        .Global = False
-        .IgnoreCase = True
-        .MultiLine = False
+        rx.Pattern = "[a-z0-9]"
+        rx.Global = False
+        rx.IgnoreCase = True
+        rx.MultiLine = False
     End With
     
     ' Grab the search range
@@ -917,4 +917,24 @@ Sub MarkupToggle()
             .Markup = wdRevisionsMarkupAll
         End If
     End With
+End Sub
+
+Sub SetListKeepWithNext()
+    Dim wholeRg As Range
+    Dim thisPara As Paragraph, nextPara As Paragraph
+    Dim iter As Long
+    
+    Set wholeRg = Selection.Range
+    
+    With wholeRg
+        For iter = 1 To .Paragraphs.Count - 1
+            Set thisPara = .Paragraphs(iter)
+            Set nextPara = .Paragraphs(iter + 1)
+            
+            thisPara.KeepWithNext = nextPara.LeftIndent > thisPara.LeftIndent
+        Next iter
+        
+        .Paragraphs(.Paragraphs.Count).KeepWithNext = False
+    End With
+    
 End Sub
