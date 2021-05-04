@@ -175,7 +175,6 @@ Sub SuperscriptEndnoteNumbers()
             ' If this is the first endnote, then use it as the basis for whether to
             ' add or remove the superscript
             If en.Range.Text = .Item(1).Range.Text And Not hasBeenSet Then
-                Debug.Print "HIT"
                 setting = Not workRg.Characters(1).Font.Superscript
                 hasBeenSet = True
             End If
@@ -937,4 +936,12 @@ Sub SetListKeepWithNext()
         .Paragraphs(.Paragraphs.Count).KeepWithNext = False
     End With
     
+End Sub
+
+Sub SelectionAcceptChanges()
+    Selection.Range.Revisions.AcceptAll
+End Sub
+
+Sub SelectionRejectChanges()
+    Selection.Range.Revisions.RejectAll
 End Sub
