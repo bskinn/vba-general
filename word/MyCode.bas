@@ -949,7 +949,7 @@ End Sub
 Sub setBothIndents()
     Dim indent As String
     
-    indent = InputBox("Enter desired indent in inches", "Enter indent")
+    indent = InputBox("Enter desired indent in inches", "Enter indent", "0.19")
     
     If IsNumeric(CDbl(indent)) Then
         With Selection.Paragraphs(1)
