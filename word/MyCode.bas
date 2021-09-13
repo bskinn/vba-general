@@ -945,3 +945,17 @@ End Sub
 Sub SelectionRejectChanges()
     Selection.Range.Revisions.RejectAll
 End Sub
+
+Sub setBothIndents()
+    Dim indent As String
+    
+    indent = InputBox("Enter desired indent in inches", "Enter indent")
+    
+    If IsNumeric(CDbl(indent)) Then
+        With Selection.Paragraphs(1)
+            .LeftIndent = CDbl(indent) * 72
+            .RightIndent = CDbl(indent) * 72
+        End With
+    End If
+    
+End Sub
