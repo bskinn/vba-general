@@ -174,7 +174,12 @@ End Sub
 
 Sub dupeItems()
     
-    Dim it As Object
+    Dim it As Object, resp As VbMsgBoxResult
+    
+    If ActiveExplorer.Selection.Count > 10 Then
+        If MsgBox("More than 10 items selected, proceed with copy?", vbOKCancel, _
+                    "Confirm Large Copy") = vbCancel Then Exit Sub
+    End If
 
     For Each it In ActiveExplorer.Selection
         it.Copy
