@@ -57,7 +57,7 @@ Attribute DoValExtract.VB_ProcData.VB_Invoke_Func = "Q\n14"
     
     ' Query the user for the desired range
     Set rg = Application.InputBox("Select a cell within the desired data set: ", "Select data set", _
-                        ActiveCell, , , , , 8)
+                        ActiveCell.Address, , , , , 8)
     
     ' Store the error number, clear the error status, and restore system error handling
     val = Err.Number
